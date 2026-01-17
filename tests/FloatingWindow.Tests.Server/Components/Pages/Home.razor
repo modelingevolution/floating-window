@@ -1,0 +1,57 @@
+@page "/"
+
+<PageTitle>Floating Window Demo</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h4" GutterBottom="true">Floating Window Demo</MudText>
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               OnClick="() => _showWindow1 = true"
+               Class="mr-2"
+               data-testid="open-window-1">
+        Open Window 1
+    </MudButton>
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Secondary"
+               OnClick="() => _showWindow2 = true"
+               data-testid="open-window-2">
+        Open Window 2
+    </MudButton>
+</MudContainer>
+
+@if (_showWindow1)
+{
+    <FloatingWindow Title="Window 1"
+                    Left="100"
+                    Top="150"
+                    Width="400"
+                    Height="300"
+                    @bind-IsVisible="_showWindow1"
+                    data-testid="floating-window-1">
+        <MudText>This is the content of Window 1.</MudText>
+        <MudText Class="mt-2">You can drag me by the header!</MudText>
+        <MudTextField T="string" Label="Input" Variant="Variant.Outlined" Class="mt-4" data-testid="window1-input" />
+    </FloatingWindow>
+}
+
+@if (_showWindow2)
+{
+    <FloatingWindow Title="Window 2"
+                    Left="550"
+                    Top="150"
+                    Width="350"
+                    Height="250"
+                    CanMaximize="false"
+                    @bind-IsVisible="_showWindow2"
+                    data-testid="floating-window-2">
+        <MudText>This is Window 2 without maximize button.</MudText>
+        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mt-4">Click Me</MudButton>
+    </FloatingWindow>
+}
+
+@code {
+    private bool _showWindow1;
+    private bool _showWindow2;
+}
