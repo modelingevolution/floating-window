@@ -1,0 +1,67 @@
+.floating-window {
+    position: fixed;
+    z-index: 1300;
+    user-select: none;
+    border-radius: var(--mud-default-borderradius, 8px);
+    overflow: hidden;
+}
+
+.floating-window.minimized {
+    width: auto !important;
+    height: auto !important;
+}
+
+.floating-window-paper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.floating-window-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--mud-palette-primary);
+    color: var(--mud-palette-primary-text);
+    cursor: move;
+    min-height: 44px;
+    border-radius: inherit;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.floating-window-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    font-weight: 500;
+}
+
+.floating-window-btn {
+    color: inherit !important;
+    flex-shrink: 0;
+}
+
+.floating-window-content {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+    background: var(--mud-palette-surface);
+}
+
+.floating-window-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: se-resize;
+    background: linear-gradient(135deg, transparent 50%, var(--mud-palette-primary) 50%);
+    border-bottom-right-radius: inherit;
+}

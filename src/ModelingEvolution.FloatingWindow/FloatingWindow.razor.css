@@ -1,0 +1,54 @@
+.floating-window {
+    position: fixed;
+    z-index: 1300;
+    user-select: none;
+}
+
+.floating-window.minimized {
+    width: auto !important;
+    height: auto !important;
+}
+
+.floating-window-paper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.floating-window-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--mud-palette-primary);
+    color: var(--mud-palette-primary-text);
+    cursor: move;
+    min-height: 40px;
+}
+
+.floating-window-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+}
+
+.floating-window-btn {
+    color: inherit !important;
+}
+
+.floating-window-content {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+}
+
+.floating-window-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: se-resize;
+    background: linear-gradient(135deg, transparent 50%, var(--mud-palette-primary) 50%);
+}

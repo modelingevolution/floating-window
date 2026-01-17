@@ -82,6 +82,12 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
     [Parameter] public EventCallback OnClosed { get; set; }
 
     /// <summary>
+    /// Additional attributes to apply to the root element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
     /// Whether the window is currently minimized.
     /// </summary>
     public bool IsMinimized { get; private set; }
