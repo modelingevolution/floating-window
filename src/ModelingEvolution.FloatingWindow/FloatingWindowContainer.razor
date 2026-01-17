@@ -1,0 +1,52 @@
+@namespace ModelingEvolution.FloatingWindow
+
+<div class="floating-window @(WindowReference.State == FloatingWindowState.Minimized ? "minimized" : "") @WindowReference.Options.CssClass"
+     style="@GetWindowStyle()"
+     @ref="_windowElement"
+     @onclick="OnWindowClick"
+     @onclick:stopPropagation="true">
+
+    <MudPaper Elevation="8" Class="floating-window-paper">
+        <div class="floating-window-header"
+             @onmousedown="OnHeaderMouseDown"
+             @onmousedown:stopPropagation="true">
+            <MudText Typo="Typo.subtitle1" Class="floating-window-title">@WindowReference.Title</MudText>
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Minimize"
+                           Size="Size.Small"
+                           OnClick="ToggleMinimize"
+                           Class="floating-window-btn" />
+            @if (WindowReference.Options.CanMaximize)
+            {
+                <MudIconButton Icon="@(WindowReference.State == FloatingWindowState.Maximized ? Icons.Material.Filled.FilterNone : Icons.Material.Filled.CropSquare)"
+                               Size="Size.Small"
+                               OnClick="ToggleMaximize"
+                               Class="floating-window-btn" />
+            }
+            @if (WindowReference.Options.CanClose)
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.Close"
+                               Size="Size.Small"
+                               OnClick="Close"
+                               Class="floating-window-btn" />
+            }
+        </div>
+
+        @if (WindowReference.State != FloatingWindowState.Minimized)
+        {
+            <CascadingValue Value="(IFloatingWindowInstance)WindowReference" IsFixed="true">
+                <div class="floating-window-content">
+                    @RenderContent()
+                </div>
+            </CascadingValue>
+
+            @if (WindowReference.Options.CanResize && WindowReference.State != FloatingWindowState.Maximized)
+            {
+                <div class="floating-window-resize-handle"
+                     @onmousedown="OnResizeMouseDown"
+                     @onmousedown:stopPropagation="true">
+                </div>
+            }
+        }
+    </MudPaper>
+</div>

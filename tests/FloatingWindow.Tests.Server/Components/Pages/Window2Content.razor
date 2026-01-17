@@ -1,0 +1,22 @@
+<MudText>This is Window 2 without maximize button.</MudText>
+<MudText Class="mt-2">Content component can access its window via cascading parameter.</MudText>
+
+<MudButton Variant="Variant.Text"
+           Color="Color.Primary"
+           Class="mt-4"
+           OnClick="CloseWindow">
+    Close This Window
+</MudButton>
+
+@code {
+    [CascadingParameter]
+    private IFloatingWindowInstance? Window { get; set; }
+
+    private async Task CloseWindow()
+    {
+        if (Window != null)
+        {
+            await Window.CloseAsync();
+        }
+    }
+}

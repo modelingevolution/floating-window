@@ -1,3 +1,4 @@
+using ModelingEvolution.FloatingWindow;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddFloatingWindow();
 
 var app = builder.Build();
 

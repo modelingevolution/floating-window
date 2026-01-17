@@ -1,13 +1,17 @@
 @page "/"
+@inject IFloatingWindowService FloatingWindows
 
 <PageTitle>Floating Window Demo</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
     <MudText Typo="Typo.h4" GutterBottom="true">Floating Window Demo</MudText>
+    <MudText Typo="Typo.body1" Class="mb-4">
+        Using the new service-based pattern - similar to MudBlazor's dialog system.
+    </MudText>
 
     <MudButton Variant="Variant.Filled"
                Color="Color.Primary"
-               OnClick="() => _showWindow1 = true"
+               OnClick="OpenWindow1"
                Class="mr-2"
                data-testid="open-window-1">
         Open Window 1
@@ -15,43 +19,98 @@
 
     <MudButton Variant="Variant.Filled"
                Color="Color.Secondary"
-               OnClick="() => _showWindow2 = true"
+               OnClick="OpenWindow2"
+               Class="mr-2"
                data-testid="open-window-2">
         Open Window 2
     </MudButton>
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Tertiary"
+               OnClick="OpenSettingsWindow"
+               Class="mr-2"
+               data-testid="open-settings">
+        Open Settings
+    </MudButton>
+
+    <MudButton Variant="Variant.Outlined"
+               Color="Color.Error"
+               OnClick="CloseAll"
+               data-testid="close-all">
+        Close All
+    </MudButton>
+
+    @if (_lastResult != null)
+    {
+        <MudAlert Severity="@(_lastResult.Cancelled ? Severity.Warning : Severity.Success)" Class="mt-4">
+            @if (_lastResult.Cancelled)
+            {
+                <span>Window was cancelled/closed.</span>
+            }
+            else if (_lastResult.TryGetData<string>(out var data))
+            {
+                <span>Window returned: @data</span>
+            }
+            else
+            {
+                <span>Window closed successfully.</span>
+            }
+        </MudAlert>
+    }
 </MudContainer>
 
-@if (_showWindow1)
-{
-    <FloatingWindow Title="Window 1"
-                    Left="100"
-                    Top="150"
-                    Width="400"
-                    Height="300"
-                    @bind-IsVisible="_showWindow1"
-                    data-testid="floating-window-1">
-        <MudText>This is the content of Window 1.</MudText>
-        <MudText Class="mt-2">You can drag me by the header!</MudText>
-        <MudTextField T="string" Label="Input" Variant="Variant.Outlined" Class="mt-4" data-testid="window1-input" />
-    </FloatingWindow>
-}
-
-@if (_showWindow2)
-{
-    <FloatingWindow Title="Window 2"
-                    Left="550"
-                    Top="150"
-                    Width="350"
-                    Height="250"
-                    CanMaximize="false"
-                    @bind-IsVisible="_showWindow2"
-                    data-testid="floating-window-2">
-        <MudText>This is Window 2 without maximize button.</MudText>
-        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mt-4">Click Me</MudButton>
-    </FloatingWindow>
-}
-
 @code {
-    private bool _showWindow1;
-    private bool _showWindow2;
+    private FloatingWindowResult? _lastResult;
+    private int _windowCount;
+
+    private void OpenWindow1()
+    {
+        _windowCount++;
+        FloatingWindows.Show("Window 1", builder =>
+        {
+            builder.OpenElement(0, "div");
+            builder.AddContent(1, "This is the content of Window 1.");
+            builder.OpenComponent<MudText>(2);
+            builder.AddAttribute(3, "Class", "mt-2");
+            builder.AddAttribute(4, "ChildContent", (RenderFragment)(b => b.AddContent(0, "You can drag me by the header!")));
+            builder.CloseComponent();
+            builder.CloseElement();
+        }, new FloatingWindowOptions
+        {
+            Left = 100 + (_windowCount * 30),
+            Top = 150 + (_windowCount * 30),
+            Width = 400,
+            Height = 300
+        });
+    }
+
+    private void OpenWindow2()
+    {
+        _windowCount++;
+        FloatingWindows.Show<Window2Content>(
+            "Window 2 (No Maximize)",
+            new FloatingWindowOptions
+            {
+                Left = 550 + (_windowCount * 30),
+                Top = 150 + (_windowCount * 30),
+                Width = 350,
+                Height = 250,
+                CanMaximize = false
+            });
+    }
+
+    private async Task OpenSettingsWindow()
+    {
+        var windowRef = FloatingWindows.Show<SettingsPanel>(
+            "Settings",
+            FloatingWindowOptions.Centered(500, 400));
+
+        _lastResult = await windowRef.Result;
+        StateHasChanged();
+    }
+
+    private void CloseAll()
+    {
+        FloatingWindows.CloseAll();
+    }
 }

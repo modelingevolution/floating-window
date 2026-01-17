@@ -100,6 +100,7 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
     private ElementReference _windowElement;
     private DotNetObjectReference<FloatingWindow>? _dotNetRef;
     private IJSObjectReference? _jsModule;
+    private readonly string _windowId = Guid.NewGuid().ToString();
 
     private double _currentLeft;
     private double _currentTop;
@@ -131,7 +132,7 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
             _dotNetRef = DotNetObjectReference.Create(this);
             _jsModule = await JS.InvokeAsync<IJSObjectReference>(
                 "import", "./_content/ModelingEvolution.FloatingWindow/floatingWindow.js");
-            await _jsModule.InvokeVoidAsync("initialize", _dotNetRef);
+            await _jsModule.InvokeVoidAsync("initialize", _windowId, _dotNetRef);
         }
     }
 
@@ -153,7 +154,7 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
 
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("startDrag");
+            await _jsModule.InvokeVoidAsync("startDrag", _windowId);
         }
     }
 
@@ -167,7 +168,7 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
 
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("startResize");
+            await _jsModule.InvokeVoidAsync("startResize", _windowId);
         }
     }
 
@@ -238,7 +239,7 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
     {
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("dispose");
+            await _jsModule.InvokeVoidAsync("dispose", _windowId);
             await _jsModule.DisposeAsync();
         }
         _dotNetRef?.Dispose();

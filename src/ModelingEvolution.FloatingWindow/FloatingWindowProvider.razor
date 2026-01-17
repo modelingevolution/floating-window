@@ -1,0 +1,6 @@
+@namespace ModelingEvolution.FloatingWindow
+
+@foreach (var window in Service.Windows)
+{
+    <FloatingWindowContainer @key="window.Id" WindowReference="window" />
+}
