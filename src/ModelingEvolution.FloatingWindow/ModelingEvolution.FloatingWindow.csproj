@@ -7,13 +7,18 @@
     <Description>Floating draggable window component for Blazor using MudBlazor</Description>
     <PackageTags>blazor;mudblazor;floating;window;draggable;component</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/rafalmaciag/floating-window</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rafalmaciag/floating-window</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/modelingevolution/floating-window</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/modelingevolution/floating-window</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
