@@ -47,7 +47,15 @@ jobs:
             /p:IncludeSymbols=true \
             /p:SymbolPackageFormat=snupkg
 
-      - name: Push to NuGet
+      - name: Push to ModelingEvolution NuGet
+        run: |
+          dotnet nuget push "./artifacts/*.nupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY_ME }} \
+            --source https://nuget.modelingevolution.com/v3/index.json \
+            --skip-duplicate
+        continue-on-error: true
+
+      - name: Push to NuGet.org
         run: |
           dotnet nuget push "./artifacts/*.nupkg" \
             --api-key ${{ secrets.NUGET_API_KEY }} \
