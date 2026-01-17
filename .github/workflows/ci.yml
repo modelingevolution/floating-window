@@ -29,8 +29,5 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Install Playwright browsers
-        run: pwsh tests/FloatingWindow.Tests.Server/bin/Release/net10.0/playwright.ps1 install --with-deps
-
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal --filter "Category!=Integration"

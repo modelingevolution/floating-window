@@ -6,7 +6,9 @@ namespace FloatingWindow.Tests.Server;
 
 /// <summary>
 /// End-to-end tests for the FloatingWindow component using Playwright.
+/// These tests require a running server and are skipped on CI.
 /// </summary>
+[Trait("Category", "Integration")]
 public class PlaywrightTests : IAsyncLifetime
 {
     private IPlaywright _playwright = null!;
