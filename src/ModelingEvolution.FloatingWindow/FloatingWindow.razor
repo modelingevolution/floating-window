@@ -33,7 +33,7 @@
 
         @if (!IsMinimized)
         {
-            <div class="floating-window-content">
+            <div class="floating-window-content" style="padding: @(ContentPadding)px;">
                 @ChildContent
             </div>
 

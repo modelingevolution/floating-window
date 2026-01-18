@@ -67,6 +67,11 @@ public partial class FloatingWindow : ComponentBase, IAsyncDisposable
     [Parameter] public bool CanResize { get; set; } = true;
 
     /// <summary>
+    /// Content padding in pixels. Set to 0 for no padding. Default is 16.
+    /// </summary>
+    [Parameter] public int ContentPadding { get; set; } = 16;
+
+    /// <summary>
     /// Whether the window is visible.
     /// </summary>
     [Parameter] public bool IsVisible { get; set; } = true;
